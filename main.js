@@ -1,51 +1,73 @@
+//FUNCTIONS CLICK NEXT AND PREV
 $(document).ready(function() {
-  //GENERO UNA FUNZIONE CHE AL CLICK SULLA FRECCIA DI DESTRA, FACCIA LO SLIDE SULLE FOTO SUCCESSIVE
   $(".next").click(
-    function () {
-      var imgActive = $("img.active");
-      imgActive.removeClass("active");
-
-      if(imgActive.hasClass("last")){
-        var nextImg = $("img.first");
-      } else {
-        var nextImg = imgActive.next();
-      }
-      nextImg.addClass("active");
+    function() {
+      nextImage();
     }
-  );
-  //GENERO UNA FUNZIONE CHE AL CLICK SULLA FRECCIA DI SINISTRA, FACCIA LO SLIDE SULLE FOTO PRECEDENTI
+  )
+
   $(".prev").click(
-    function () {
-      var imgActive = $("img.active");
-      imgActive.removeClass("active");
+    function() {
+      prevImage();
+    }
+  )
+  //FUNCTION CLICK BULLETS
+  $(".nav i").click(
+    function() {
+     var bullets = $(this).index();
+     $("img").removeClass("active");
+     var indexImg = bullets + 1;
+     $("img:nth-child("+indexImg+")").addClass("active");
+     $(".nav i").removeClass("active");
+     $(this).addClass("active");
+  });
+//KEYDOWN EVENTS
+  $(document).keydown(
+    function(event) {
+      if(event.which == 39) {
+        nextImage();
 
-      if(imgActive.hasClass("first")){
-        var nextImg = $("img.last");
-      } else {
-        var nextImg = imgActive.prev();
+      } else if(event.which == 37) {
+        prevImage();
       }
-      nextImg.addClass("active");
     }
-  );
-//GENERO UNA FUNZIONA CHE AL CLICK SUI PALLINI, FACCIA LO SLIDE
-$(".fa-circle").click(
-  function () {
-    var imgActive = $("img.active");
-    imgActive.removeClass("active");
+  )
+});
 
-    if(imgActive.hasClass("last")){
-      var nextImg = $("img.first");
-    } else {
-      var nextImg = imgActive.next();
-    }
-    nextImg.addClass("active");
+//FUNCTION NEXT IMAGE AND CIRCLE
+function nextImage() {
+  var imgActive = $("img.active");
+  imgActive.removeClass("active");
 
-    //RENDO I CERCHI ACTIVE AL CLICK
-    var circleActive = $("fa-circle.active");
-    circleActive.removeClass("active");
+  var circleActive = $("i.active");
+  circleActive.removeClass("active");
+
+  if (imgActive.hasClass("last")) {
+    var nextImg = $("img.first");
+    var nextCircle = $("i.first");
+  } else {
+    var nextImg = imgActive.next();
     var nextCircle = circleActive.next();
-    nextCircle.addClass("active");
-    // $(".fa-circle").toggleClass("active");
   }
-);
-} );
+    nextImg.addClass("active");
+    nextCircle.addClass("active");
+}
+
+//FUNCTION PREV IMAGE AND CIRCLE
+function prevImage() {
+  var imgActive = $("img.active");
+  imgActive.removeClass("active");
+
+  var circleActive = $("i.active");
+  circleActive.removeClass("active");
+
+  if (imgActive.hasClass("first")) {
+    var prevImg = $("img.last");
+    var prevCircle = $("i.last");
+  } else {
+    var prevImg = imgActive.prev();
+    var prevCircle = circleActive.prev();
+  }
+    prevImg.addClass("active");
+    prevCircle.addClass("active");
+}
